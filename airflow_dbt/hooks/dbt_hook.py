@@ -83,12 +83,14 @@ class DbtCliHook(BaseHook):
         # correctly. However, as YAML is a super-set of JSON, this works just fine.
         return json.dumps(self.vars)
 
-    def run_cli(self, *command):
+    def create_cli_cmd(self, *command):
         """
-        Run the dbt cli
-
+        create cli command
         :param command: The dbt command to run
         :type command: str
+
+        :return: dbt_cmd: the list of commands to pass to subprocess
+        :type dbt_cmd: List
         """
 
         dbt_cmd = [self.dbt_bin, *command]
@@ -131,6 +133,18 @@ class DbtCliHook(BaseHook):
 
         if self.verbose:
             self.log.info(" ".join(dbt_cmd))
+
+        return dbt_cmd
+
+    def run_cli(self, *command):
+        """
+        Run the dbt cli
+
+        :param command: The dbt command to run
+        :type command: str
+        """
+
+        dbt_cmd = self.create_cli_cmd(*command)
 
         sp = subprocess.Popen(
             dbt_cmd,

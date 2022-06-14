@@ -31,6 +31,17 @@ class TestDbtOperator(TestCase):
         mock_run_cli.assert_called_once_with('run')
 
     @mock.patch.object(DbtCliHook, 'run_cli')
+    def test_dbt_run_with_project_dir(self, mock_run_cli):
+        operator = DbtRunOperator(
+            task_id='run',
+            project_dir='path/to/dir',
+            dag=self.dag
+        )
+        assert operator.project_dir == 'path/to/dir'
+        operator.execute(None)
+        mock_run_cli.assert_called_once_with('run')
+
+    @mock.patch.object(DbtCliHook, 'run_cli')
     def test_dbt_test(self, mock_run_cli):
         operator = DbtTestOperator(
             task_id='test',
