@@ -44,6 +44,7 @@ class DbtBaseOperator(BaseOperator):
     def __init__(self,
                  env=None,
                  profiles_dir=None,
+                 project_dir=None,
                  target=None,
                  dir='.',
                  vars=None,
@@ -63,6 +64,7 @@ class DbtBaseOperator(BaseOperator):
 
         self.env = env or {}
         self.profiles_dir = profiles_dir
+        self.project_dir = project_dir
         self.target = target
         self.dir = dir
         self.vars = vars
@@ -82,6 +84,7 @@ class DbtBaseOperator(BaseOperator):
         self.hook = DbtCliHook(
             env=self.env,
             profiles_dir=self.profiles_dir,
+            project_dir=self.project_dir,
             target=self.target,
             dir=self.dir,
             vars=self.vars,

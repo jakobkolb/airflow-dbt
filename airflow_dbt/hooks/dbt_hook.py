@@ -44,6 +44,7 @@ class DbtCliHook(BaseHook):
     def __init__(self,
                  env=None,
                  profiles_dir=None,
+                 project_dir=None,
                  target=None,
                  dir='.',
                  vars=None,
@@ -60,6 +61,7 @@ class DbtCliHook(BaseHook):
                  warn_error=False):
         self.env = env or {}
         self.profiles_dir = profiles_dir
+        self.project_dir = project_dir
         self.dir = dir
         self.target = target
         self.vars = vars
@@ -93,6 +95,9 @@ class DbtCliHook(BaseHook):
 
         if self.profiles_dir is not None:
             dbt_cmd.extend(['--profiles-dir', self.profiles_dir])
+
+        if self.project_dir is not None:
+            dbt_cmd.extend(['--project-dir', self.project_dir])
 
         if self.target is not None:
             dbt_cmd.extend(['--target', self.target])
